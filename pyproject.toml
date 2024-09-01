@@ -16,7 +16,7 @@ version_toml = [
 ]                                                     # version location
 branch = "main"                                       # branch to make releases of
 changelog_file = "CHANGELOG.md"                       # changelog file
-build_command = "uv run poe build"                    # build dists                                           
+build_command = "pip install uv && uv run poe build"  # build dists                                           
 
 [tool.poe.tasks]
 # Using poe to define dev scripts since uv still doesn't have this feature
