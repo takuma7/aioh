@@ -1,0 +1,76 @@
+[project]
+name = "aioh"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.semantic_release]
+version_toml = [
+    "pyproject.toml",
+]                                                     # version location
+branch = "main"                                       # branch to make releases of
+changelog_file = "CHANGELOG.md"                       # changelog file
+build_command = "uv run poe build"                    # build dists                                           
+
+[tool.poe.tasks]
+# Using poe to define dev scripts since uv still doesn't have this feature
+# c.f. https://github.com/astral-sh/uv/issues/5903
+#
+# Usage:
+# `uv run poe <task>`
+#
+# Doc: https://poethepoet.natn.io/
+build = "uvx --from build pyproject-build --installer uv"
+test = ["lint", "type-check", { cmd = "pytest" }]
+type-check = "mypy ."
+lint = "ruff check"
+lint-fix = "ruff check --fix"
+format = "ruff format"
+publish = "uvx twine upload dist/*"
+
+[tool.uv]
+dev-dependencies = [
+    "ruff>=0.6.2",
+    "pytest>=8.3.2",
+    "pytest-mock>=3.14.0",
+    "pytest-asyncio>=0.24.0",
+    "mypy>=1.11.2",
+    "pytest-cov>=5.0.0",
+    "poethepoet>=0.28.0",
+    "python-semantic-release>=9.8.7",
+]
+
+[tool.mypy]
+strict = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+    "-vv",
+    "--color=yes",
+    "--cov=aioh",
+    "--cov-branch",
+    "--cov-fail-under=90",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=lcov",
+    "--cov-report=xml",
+    "--cov-report=json",
+]
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+select = [
+    "D",
+    # Augment the convention by requiring an imperative mood for all docstrings.
+    "D401",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
