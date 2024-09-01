@@ -12,7 +12,7 @@ build-backend = "hatchling.build"
 
 [tool.semantic_release]
 version_toml = [
-    "pyproject.toml",
+    "pyproject.toml:project.version",
 ]                                                     # version location
 branch = "main"                                       # branch to make releases of
 changelog_file = "CHANGELOG.md"                       # changelog file
