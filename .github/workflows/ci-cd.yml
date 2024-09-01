@@ -9,13 +9,13 @@ jobs:
 
     # Define job steps
     steps:
+      - name: Check-out repository
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
-
-      - name: Check-out repository
-        uses: actions/checkout@v3
 
       - name: Set up uv
         # Install latest uv version using the installer
@@ -48,15 +48,15 @@ jobs:
 
     # Define job steps
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: "pyproject.toml"
-
       - name: Check-out repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
 
       - name: Set up uv
         # Install latest uv version using the installer
